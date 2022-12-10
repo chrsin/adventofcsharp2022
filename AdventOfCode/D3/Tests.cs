@@ -8,7 +8,7 @@ public class Tests {
 	[Fact]
 	public async Task TestAnswer() {
 		var sum = Part2.CalculateBadgeSum("D3/input3.txt");
-		Assert.Equal(1, sum);
+		Assert.Equal(2510, sum);
 	}
 
 	[Fact]
