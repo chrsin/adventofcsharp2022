@@ -17,7 +17,7 @@ public class Tests {
 
 	[Fact]
 	public async Task InputPart2() {
-		Assert.Equal(1, Part2.GetFullyContainedPairCount("D4/input.txt"));
+		Assert.Equal(883, Part2.GetFullyContainedPairCount("D4/input.txt"));
 	}
 
 	[Theory]
