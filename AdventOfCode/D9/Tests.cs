@@ -24,4 +24,19 @@ public class Tests {
 		int visitedFields = Part1.GetNumberOfTailVisitedFields(board);
 		Assert.Equal(5779, visitedFields);
 	}
+
+	[Fact]
+	public async Task CanSolveExamplePart2() {
+		Assert.Equal(1, Part2.ApplyMovesAndGetScore("D9/example.txt"));
+	}
+	
+	[Fact]
+	public async Task CanSolveExample2Part2() {
+		Assert.Equal(36, Part2.ApplyMovesAndGetScore("D9/example2.txt"));
+	}
+	
+	[Fact]
+	public async Task CanSolveInput2Part2() {
+		Assert.Equal(2331, Part2.ApplyMovesAndGetScore("D9/input.txt"));
+	}
 }
