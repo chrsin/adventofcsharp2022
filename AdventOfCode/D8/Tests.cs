@@ -34,7 +34,7 @@ public class Tests {
 		var map = Part2.BuildTreeMap("D8/input.txt");
 		var highest = Part2.GetHighestScenicScore(map);
 		
-		Assert.Equal(8, highest);
+		Assert.Equal(405769, highest);
 	}
 
 }
