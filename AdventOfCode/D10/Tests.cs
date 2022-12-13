@@ -13,7 +13,6 @@ public class Tests {
 	
 	[Fact]
 	public async Task CanSolveInput() {
-
 		Assert.Equal(15020, Part1.ProcessInput("D10/input.txt"));
 	}
 
