@@ -16,4 +16,9 @@ public class Tests {
 
 		Assert.Equal(15020, Part1.ProcessInput("D10/input.txt"));
 	}
+
+	[Fact]
+	public async Task CanSolveExamplePart2() {
+		Part2.ProcessInput("D10/input.txt", @"C:\tmp\output.txt");
+	}
 }
