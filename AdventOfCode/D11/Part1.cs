@@ -100,10 +100,10 @@ public class MonkeyBarrel {
 }
 
 public class Monkey {
-	private readonly Func<int, int> _operation;
-	private readonly Func<int, bool> _evaluation;
-	private Monkey _evaluateTrueMonkey;
-	private Monkey _evaluateFalseMonkey;
+	public readonly Func<int, int> _operation;
+	public readonly Func<int, bool> _evaluation;
+	public Monkey _evaluateTrueMonkey;
+	public Monkey _evaluateFalseMonkey;
 
 	private int _score = 0;
 

@@ -19,6 +19,82 @@ public class Tests {
 		Assert.Equal(10605, barrel.CalculateMonkeyBusiness(2));
 	}
 
+	[Fact]
+	public async Task TestInputMonkeys() {
+		var barrel = Part1.GetInputMonkeys();
+		var monkey = barrel.Monkeys[0];
+		Assert.Equal(19, monkey._operation(1));
+		Assert.Equal(38, monkey._operation(2));
+		Assert.True(monkey._evaluation(34));
+		Assert.False(monkey._evaluation(32));
+		
+		Assert.Same(barrel.Monkeys[4], monkey._evaluateTrueMonkey);
+		Assert.Same(barrel.Monkeys[7], monkey._evaluateFalseMonkey);
+
+		monkey = barrel.Monkeys[1];
+		Assert.Equal(11, monkey._operation(1));
+		Assert.Equal(22, monkey._operation(2));
+		Assert.True(monkey._evaluation(33));
+		Assert.False(monkey._evaluation(32));
+		
+		Assert.Same(barrel.Monkeys[3], monkey._evaluateTrueMonkey);
+		Assert.Same(barrel.Monkeys[2], monkey._evaluateFalseMonkey);
+		
+		monkey = barrel.Monkeys[2];
+		Assert.Equal(7, monkey._operation(1));
+		Assert.Equal(8, monkey._operation(2));
+		Assert.True(monkey._evaluation(38));
+		Assert.False(monkey._evaluation(37));
+		
+		Assert.Same(barrel.Monkeys[0], monkey._evaluateTrueMonkey);
+		Assert.Same(barrel.Monkeys[4], monkey._evaluateFalseMonkey);
+
+		monkey = barrel.Monkeys[3];
+		Assert.Equal(6, monkey._operation(1));
+		Assert.Equal(7, monkey._operation(2));
+		Assert.True(monkey._evaluation(14));
+		Assert.False(monkey._evaluation(13));
+		
+		Assert.Same(barrel.Monkeys[2], monkey._evaluateTrueMonkey);
+		Assert.Same(barrel.Monkeys[0], monkey._evaluateFalseMonkey);
+		
+		monkey = barrel.Monkeys[4];
+		Assert.Equal(8, monkey._operation(1));
+		Assert.Equal(9, monkey._operation(2));
+		Assert.True(monkey._evaluation(18));
+		Assert.False(monkey._evaluation(17));
+		
+		Assert.Same(barrel.Monkeys[7], monkey._evaluateTrueMonkey);
+		Assert.Same(barrel.Monkeys[5], monkey._evaluateFalseMonkey);
+		
+		monkey = barrel.Monkeys[5];
+		Assert.Equal(1, monkey._operation(1));
+		Assert.Equal(4, monkey._operation(2));
+		Assert.True(monkey._evaluation(25));
+		Assert.False(monkey._evaluation(24));
+		
+		Assert.Same(barrel.Monkeys[1], monkey._evaluateTrueMonkey);
+		Assert.Same(barrel.Monkeys[6], monkey._evaluateFalseMonkey);
+		
+		monkey = barrel.Monkeys[6];
+		Assert.Equal(3, monkey._operation(1));
+		Assert.Equal(4, monkey._operation(2));
+		Assert.True(monkey._evaluation(22));
+		Assert.False(monkey._evaluation(21));
+		
+		Assert.Same(barrel.Monkeys[3], monkey._evaluateTrueMonkey);
+		Assert.Same(barrel.Monkeys[1], monkey._evaluateFalseMonkey);
+		
+		monkey = barrel.Monkeys[7];
+		Assert.Equal(4, monkey._operation(1));
+		Assert.Equal(5, monkey._operation(2));
+		Assert.True(monkey._evaluation(26));
+		Assert.False(monkey._evaluation(21));
+		
+		Assert.Same(barrel.Monkeys[5], monkey._evaluateTrueMonkey);
+		Assert.Same(barrel.Monkeys[6], monkey._evaluateFalseMonkey);
+	}
+
 
 	[Fact]
 	public async Task RoundingDownFuckingWorks() {
