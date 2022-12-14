@@ -16,7 +16,7 @@ public class Tests {
 	public async Task CanSolveInputPart1() {
 		var barrel = Part1.GetInputMonkeys();
 		barrel.ArseAround(20);
-		Assert.Equal(10605, barrel.CalculateMonkeyBusiness(2));
+		Assert.Equal(99852, barrel.CalculateMonkeyBusiness(2));
 	}
 
 	[Fact]

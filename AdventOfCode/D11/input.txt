@@ -1,7 +1,7 @@
 Monkey 0:
   Starting items: 72, 64, 51, 57, 93, 97, 68
   Operation: new = old * 19
-  Test: divisible by 17
+  Test: divisible by 18
     If true: throw to monkey 4
     If false: throw to monkey 7
 

@@ -86,8 +86,8 @@ public class MonkeyBarrel {
 		}
 	}
 
-	public int CalculateMonkeyBusiness(int fromNumberOfMonkeys) {
-		int total = 1;
+	public long CalculateMonkeyBusiness(int fromNumberOfMonkeys) {
+		long total = 1;
 		foreach (var score in Monkeys.Select(m => m.GetScore()).OrderByDescending(s => s)
 			         .Take(fromNumberOfMonkeys)) {
 			total *= score;
@@ -100,25 +100,25 @@ public class MonkeyBarrel {
 }
 
 public class Monkey {
-	public readonly Func<int, int> _operation;
-	public readonly Func<int, bool> _evaluation;
+	public readonly Func<long, long> _operation;
+	public readonly Func<long, bool> _evaluation;
 	public Monkey _evaluateTrueMonkey;
 	public Monkey _evaluateFalseMonkey;
 
 	private int _score = 0;
 
-	public Queue<int> MonkeyItems { get; }
+	public Queue<long> MonkeyItems { get; }
 
-	public Monkey(int[] startingItems, Func<int, int> operation, Func<int, bool> evaluation) {
+	public Monkey(int[] startingItems, Func<long, long> operation, Func<long, bool> evaluation) {
 		_operation = operation;
 		_evaluation = evaluation;
-		MonkeyItems = new Queue<int>();
+		MonkeyItems = new Queue<long>();
 		foreach (var item in startingItems) {
 			MonkeyItems.Enqueue(item);
 		}
 	}
 
-	public int GetScore() {
+	public long GetScore() {
 		return _score;
 	}
 
@@ -127,17 +127,17 @@ public class Monkey {
 		_evaluateFalseMonkey = evaluateFalseMonkey;
 	}
 
-	public void GiveItem(int item) {
+	public void GiveItem(long item) {
 		MonkeyItems.Enqueue(item);
 	}
 
-	public static int RelievePlayer(int worry) {
-		return Convert.ToInt32(Math.Floor(worry / 3m));
+	public static long RelievePlayer(long worry) {
+		return Convert.ToInt64(Math.Floor(worry / 3m));
 	}
 
 	public void HaveABlastAnnoyingThePlayer() {
-		while (MonkeyItems.TryDequeue(out int item)) {
-			int worry = _operation(item);
+		while (MonkeyItems.TryDequeue(out long item)) {
+			long worry = _operation(item);
 			_score++;
 
 			worry = RelievePlayer(worry);
