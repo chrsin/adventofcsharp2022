@@ -79,6 +79,22 @@ public class Part1 {
 
 		return least;
 	}
+
+	public static int FindShortestPathFromHeight0(HeightMap map) {
+		int least = int.MaxValue;
+		foreach (var coordinate in map.Map) {
+			if (coordinate.Height != 0)
+				continue;
+
+			map.Start = coordinate;
+			int? length = StepPath(map, coordinate, 0);
+			least = length.HasValue ? Math.Min(least, length.Value) : least;
+
+			map.ResetSteps();
+		}
+
+		return least;
+	}
 }
 
 public class HeightMap {
@@ -89,9 +105,14 @@ public class HeightMap {
 	}
 
 	public Coordinate[,] Map { get; }
-	public Coordinate Start { get; }
+	public Coordinate Start { get; set; }
 	public Coordinate End { get; }
 
+	public void ResetSteps() {
+		foreach (Coordinate coordinate in Map) {
+			coordinate.FewestSteps = int.MaxValue;
+		}
+	}
 
 	public Coordinate? GetNextCoord(Direction direction, Coordinate coordinate) {
 		Coordinate? newCoord = null;
