@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Xml.Serialization;
 
 namespace AdventOfCode.D12;
 
 public class Part1 {
+	public static List<Direction> AllDirections = new List<Direction> {
+		Direction.Right, Direction.Down, Direction.Up, Direction.Left
+	};
+
 	public static HeightMap GenerateHeightMap(string filename) {
 		var lines = File.ReadAllLines(filename);
 
@@ -35,49 +37,47 @@ public class Part1 {
 			}
 		}
 
-		return new HeightMap(map, startCoordinate!, endCoordinate!);
+		HeightMap result = new HeightMap(map, startCoordinate!, endCoordinate!);
+
+		foreach (Coordinate coordinate in map) {
+			foreach (var direction in AllDirections) {
+				var next = result.GetNextCoord(direction, coordinate);
+				if (next is not null)
+					coordinate.ValidCoordinates.Add(next);
+			}
+		}
+
+		return result;
 	}
 
 	public static int CalculateShortestPath(HeightMap map) {
-		StepPath(map, map.Start, new Stack<Coordinate>(10000));
+		StepPath(map, map.Start, 0);
 		return map.End.FewestSteps;
 	}
 
-	public static Stack<Coordinate> StepPath(HeightMap map, Coordinate current, Stack<Coordinate> previous) {
+	public static int? StepPath(HeightMap map, Coordinate current, int currentStep) {
 		if (Equals(current, map.End)) {
-			current.FewestSteps = Math.Min(previous.Count, current.FewestSteps);
-			return previous;
+			current.FewestSteps = Math.Min(currentStep, current.FewestSteps);
+			return currentStep;
 		}
 
-		if (current.FewestSteps < previous.Count) {
-			return previous;
+		if (current.FewestSteps < currentStep) {
+			return null;
 		}
 
-		current.FewestSteps = previous.Count;
-		previous.Push(current);
+		current.FewestSteps = currentStep;
+		currentStep++;
 
-		Coordinate? nextCoord = map.GetNextCoord(Direction.Down, current, previous.Count);
-		if (nextCoord is not null) {
-			previous = StepPath(map, nextCoord, previous);
+		int? least = null;
+		foreach (Coordinate coordinate in current.ValidCoordinates) {
+			if (coordinate.FewestSteps > currentStep) {
+				var result = StepPath(map, coordinate, currentStep);
+				if (result.HasValue)
+					least = least.HasValue ? Math.Min(least.Value, result.Value) : result.Value;
+			}
 		}
 
-		nextCoord = map.GetNextCoord(Direction.Left, current, previous.Count);
-		if (nextCoord is not null) {
-			previous = StepPath(map, nextCoord, previous);
-		}
-
-		nextCoord = map.GetNextCoord(Direction.Right, current, previous.Count);
-		if (nextCoord is not null) {
-			previous = StepPath(map, nextCoord, previous);
-		}
-
-		nextCoord = map.GetNextCoord(Direction.Up, current, previous.Count);
-		if (nextCoord is not null) {
-			previous = StepPath(map, nextCoord, previous);
-		}
-
-		previous.Pop();
-		return previous;
+		return least;
 	}
 }
 
@@ -93,7 +93,7 @@ public class HeightMap {
 	public Coordinate End { get; }
 
 
-	public Coordinate? GetNextCoord(Direction direction, Coordinate coordinate, int currentStepCount) {
+	public Coordinate? GetNextCoord(Direction direction, Coordinate coordinate) {
 		Coordinate? newCoord = null;
 		if (direction == Direction.Up) {
 			if (coordinate.Y == 0)
@@ -122,15 +122,11 @@ public class HeightMap {
 			newCoord = Map[coordinate.X + 1, coordinate.Y];
 		}
 
-		if (newCoord is null || newCoord.FewestSteps < currentStepCount) {
+		if (newCoord is null) {
 			return null;
 		}
 
-		return HeightDiff(coordinate, newCoord) <= 1 ? newCoord : null;
-	}
-
-	public int HeightDiff(Coordinate coord1, Coordinate coord2) {
-		return Math.Abs(coord1.Height - coord2.Height);
+		return coordinate.Height - newCoord.Height >= -1 ? newCoord : null;
 	}
 }
 
@@ -162,8 +158,10 @@ public class Coordinate {
 		Y = y;
 		Height = height;
 		FewestSteps = int.MaxValue;
+		ValidCoordinates = new List<Coordinate>(4);
 	}
 
+	public List<Coordinate> ValidCoordinates { get; }
 	public int X { get; }
 	public int Y { get; }
 	public int Height { get; }
